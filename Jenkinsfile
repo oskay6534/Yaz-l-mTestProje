@@ -30,14 +30,14 @@ pipeline {
                 script {
                     echo '========== Backend build ediliyor =========='
                     dir(BACKEND_DIR) {
-                        sh 'mvn clean compile'
+                        bat 'mvn clean compile'
                     }
                     echo 'Backend build tamamlandi!'
 
                     echo '========== Frontend build ediliyor =========='
                     dir(FRONTEND_DIR) {
-                        sh 'npm install'
-                        sh 'npm run build'
+                        bat 'npm install'
+                        bat 'npm run build'
                     }
                     echo 'Frontend build tamamlandi!'
                 }
@@ -50,7 +50,7 @@ pipeline {
                 script {
                     echo '========== Birim testleri calistiriliyor =========='
                     dir(BACKEND_DIR) {
-                        sh 'mvn test'
+                        bat 'mvn test'
                     }
                 }
             }
@@ -76,7 +76,7 @@ pipeline {
                 script {
                     echo '========== Entegrasyon testleri calistiriliyor =========='
                     dir(BACKEND_DIR) {
-                        sh 'mvn verify -DskipUnitTests=true'
+                        bat 'mvn verify -DskipUnitTests=true'
                     }
                 }
             }
@@ -101,12 +101,12 @@ pipeline {
             steps {
                 script {
                     echo '========== Docker container\'lar olusturuluyor =========='
-                    sh 'docker-compose down || true'
-                    sh 'docker-compose build'
-                    sh 'docker-compose up -d'
+                    bat 'docker-compose down || exit 0'
+                    bat 'docker-compose build'
+                    bat 'docker-compose up -d'
                     echo 'Docker container\'lar basariyla baslatildi!'
 
-                    // Container\'larin hazir olmasini bekle
+                    // Container'larin hazir olmasini bekle
                     echo 'Container\'larin hazir olmasi bekleniyor...'
                     sleep(time: 60, unit: 'SECONDS')
                 }
@@ -120,9 +120,7 @@ pipeline {
                 script {
                     echo '========== Selenium Test 1: Kullanici Kayit ve Giris =========='
                     dir(BACKEND_DIR) {
-                        sh '''
-                            mvn test -Dtest=KullaniciKayitVeGirisSeleniumTest || true
-                        '''
+                        bat 'mvn test -Dtest=KullaniciKayitVeGirisSeleniumTest || exit 0'
                     }
                 }
             }
@@ -145,9 +143,7 @@ pipeline {
                 script {
                     echo '========== Selenium Test 2: Saglik Verisi Ekleme =========='
                     dir(BACKEND_DIR) {
-                        sh '''
-                            mvn test -Dtest=SaglikVerisiEklemeSeleniumTest || true
-                        '''
+                        bat 'mvn test -Dtest=SaglikVerisiEklemeSeleniumTest || exit 0'
                     }
                 }
             }
@@ -170,9 +166,7 @@ pipeline {
                 script {
                     echo '========== Selenium Test 3: Randevu Olusturma =========='
                     dir(BACKEND_DIR) {
-                        sh '''
-                            mvn test -Dtest=RandevuOlusturmaSeleniumTest || true
-                        '''
+                        bat 'mvn test -Dtest=RandevuOlusturmaSeleniumTest || exit 0'
                     }
                 }
             }
@@ -195,9 +189,7 @@ pipeline {
                 script {
                     echo '========== Selenium Test 4 (BONUS): Ilac Yonetimi =========='
                     dir(BACKEND_DIR) {
-                        sh '''
-                            mvn test -Dtest=IlacYonetimSeleniumTest || true
-                        '''
+                        bat 'mvn test -Dtest=IlacYonetimSeleniumTest || exit 0'
                     }
                 }
             }
@@ -248,7 +240,7 @@ pipeline {
         always {
             echo '========== Pipeline Tamamlandi =========='
             echo 'Container\'lar temizleniyor...'
-            sh 'docker-compose down || true'
+            bat 'docker-compose down || exit 0'
         }
         success {
             echo '========== PIPELINE BASARILI! =========='
