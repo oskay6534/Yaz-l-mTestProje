@@ -12,6 +12,7 @@ function SaglikVerileri({ kullanici }) {
 
   useEffect(() => {
     verileriYukle();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const verileriYukle = async () => {

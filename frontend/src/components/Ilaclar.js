@@ -13,6 +13,7 @@ function Ilaclar({ kullanici }) {
 
   useEffect(() => {
     ilaclariYukle();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const ilaclariYukle = async () => {

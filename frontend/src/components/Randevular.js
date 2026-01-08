@@ -13,6 +13,7 @@ function Randevular({ kullanici }) {
   useEffect(() => {
     randevulariYukle();
     doktorlariYukle();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const randevulariYukle = async () => {
