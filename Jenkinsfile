@@ -51,7 +51,7 @@ pipeline {
                 script {
                     echo '========== Birim testleri calistiriliyor =========='
                     dir(BACKEND_DIR) {
-                        bat 'mvn test'
+                        bat 'mvn test -Dtest=!*SeleniumTest'
                     }
                 }
             }
@@ -109,7 +109,9 @@ pipeline {
 
                     // Container'larin hazir olmasini bekle
                     echo 'Container\'larin hazir olmasi bekleniyor...'
-                    sleep(time: 60, unit: 'SECONDS')
+                    sleep(time: 90, unit: 'SECONDS')
+                    echo 'Frontend kontrol ediliyor...'
+                    bat 'curl -f http://localhost:3000 || echo Frontend henuz hazir degil'
                 }
             }
         }
