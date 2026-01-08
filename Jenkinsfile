@@ -10,6 +10,7 @@ pipeline {
         BACKEND_DIR = 'backend'
         FRONTEND_DIR = 'frontend'
         DOCKER_COMPOSE_FILE = 'docker-compose.yml'
+        CI = 'false'
     }
 
     stages {
