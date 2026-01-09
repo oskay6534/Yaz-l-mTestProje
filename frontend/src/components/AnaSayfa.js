@@ -11,17 +11,21 @@ function AnaSayfa({ kullanici }) {
       <div className="card">
         <h2>Hizli Erisim</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
-          <div className="card" style={{ textAlign: 'center' }}>
-            <h3>Saglik Verileri</h3>
-            <p>Saglik verilerinizi takip edin</p>
-          </div>
-          <div className="card" style={{ textAlign: 'center' }}>
-            <h3>Ilaclarim</h3>
-            <p>Ilaç hatirlaticilarinizi yonetin</p>
-          </div>
+          {kullanici.rol === 'HASTA' && (
+            <>
+              <div className="card" style={{ textAlign: 'center' }}>
+                <h3>Saglik Verileri</h3>
+                <p>Saglik verilerinizi takip edin</p>
+              </div>
+              <div className="card" style={{ textAlign: 'center' }}>
+                <h3>Ilaclarim</h3>
+                <p>Ilaç hatirlaticilarinizi yonetin</p>
+              </div>
+            </>
+          )}
           <div className="card" style={{ textAlign: 'center' }}>
             <h3>Randevularim</h3>
-            <p>Randevularinizi goruntuleyin</p>
+            <p>{kullanici.rol === 'DOKTOR' ? 'Hasta randevularini goruntule' : 'Randevularinizi goruntuleyin'}</p>
           </div>
         </div>
       </div>

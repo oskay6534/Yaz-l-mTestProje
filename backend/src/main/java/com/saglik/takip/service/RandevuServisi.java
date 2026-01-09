@@ -79,4 +79,8 @@ public class RandevuServisi {
     public Randevu randevuOnayla(Long id) {
         return randevuDurumunuGuncelle(id, Randevu.RandevuDurumu.ONAYLANDI);
     }
+
+    public Randevu randevuDurumGuncelle(Long id, Randevu.RandevuDurumu yeniDurum) {
+        return randevuDurumunuGuncelle(id, yeniDurum);
+    }
 }

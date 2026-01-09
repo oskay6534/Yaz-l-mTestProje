@@ -75,6 +75,17 @@ public class RandevuController {
         }
     }
 
+    @PutMapping("/{id}/durum-guncelle")
+    public ResponseEntity<?> randevuDurumGuncelle(@PathVariable Long id, @RequestParam String durum) {
+        try {
+            Randevu.RandevuDurumu yeniDurum = Randevu.RandevuDurumu.valueOf(durum.toUpperCase());
+            Randevu guncelRandevu = randevuServisi.randevuDurumGuncelle(id, yeniDurum);
+            return ResponseEntity.ok(guncelRandevu);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
     @PutMapping("/{id}/iptal-et")
     public ResponseEntity<?> randevuIptalEt(@PathVariable Long id) {
         try {

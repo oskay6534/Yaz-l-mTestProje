@@ -69,6 +69,14 @@ export const hastayaAitRandevulariGetir = (hastaId) => {
   return api.get(`/randevular/hasta/${hastaId}`);
 };
 
+export const doktoraAitRandevulariGetir = (doktorId) => {
+  return api.get(`/randevular/doktor/${doktorId}`);
+};
+
+export const randevuDurumGuncelle = (id, durum) => {
+  return api.put(`/randevular/${id}/durum-guncelle?durum=${durum}`);
+};
+
 export const randevuIptalEt = (id) => {
   return api.put(`/randevular/${id}/iptal-et`);
 };

@@ -23,11 +23,15 @@ function App() {
             <div className="container">
               <ul>
                 <li><Link to="/">Ana Sayfa</Link></li>
-                <li><Link to="/saglik-verileri">Saglik Verileri</Link></li>
-                <li><Link to="/ilaclar">Ilaclarim</Link></li>
-                <li><Link to="/randevular">Randevular</Link></li>
+                {kullanici.rol === 'HASTA' && (
+                  <>
+                    <li><Link to="/saglik-verileri">Saglik Verileri</Link></li>
+                    <li><Link to="/ilaclar">Ilaclarim</Link></li>
+                  </>
+                )}
+                <li><Link to="/randevular">{kullanici.rol === 'DOKTOR' ? 'Hasta Randevulari' : 'Randevularim'}</Link></li>
                 <li style={{ marginLeft: 'auto' }}>
-                  <span>Hosgeldiniz, {kullanici.adSoyad}</span>
+                  <span>Hosgeldiniz, {kullanici.adSoyad} ({kullanici.rol})</span>
                   <button className="btn btn-danger" onClick={cikisYap} style={{ marginLeft: '10px' }}>
                     Cikis Yap
                   </button>
