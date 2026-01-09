@@ -18,8 +18,7 @@ public class KullaniciServisi {
     private PasswordEncoder passwordEncoder;
 
     public Kullanici kullaniciKaydet(Kullanici kullanici) {
-        // Sifre sifrele
-        kullanici.setSifre(passwordEncoder.encode(kullanici.getSifre()));
+        // Sifre duz kaydediliyor (hash yok)
         return kullaniciRepository.save(kullanici);
     }
 
@@ -72,7 +71,8 @@ public class KullaniciServisi {
     public boolean girisYap(String kullaniciAdi, String sifre) {
         Optional<Kullanici> kullanici = kullaniciRepository.findByKullaniciAdi(kullaniciAdi);
         if (kullanici.isPresent()) {
-            return passwordEncoder.matches(sifre, kullanici.get().getSifre());
+            // Duz sifre karsilastirmasi (hash yok)
+            return sifre.equals(kullanici.get().getSifre());
         }
         return false;
     }

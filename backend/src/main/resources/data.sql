@@ -7,24 +7,24 @@
 -- ================================================
 INSERT INTO kullanicilar (kullanici_adi, sifre, ad_soyad, email, telefon, rol, yas, cinsiyet, kayit_tarihi, aktif)
 VALUES
-('drali', '$2a$10$B74aYU9l4TQeVzVFBNXOe.4SzzuzwpcCRuS7QmvnV4eY1zhr7gVDm', 'Dr. Ali Demir', 'drali@hastane.com', '5559876543', 'DOKTOR', 45, 'ERKEK', NOW(), true),
-('drayse', '$2a$10$B74aYU9l4TQeVzVFBNXOe.4SzzuzwpcCRuS7QmvnV4eY1zhr7gVDm', 'Dr. Ayşe Yılmaz', 'drayse@hastane.com', '5559876544', 'DOKTOR', 38, 'KADIN', NOW(), true),
-('drmehmet', '$2a$10$B74aYU9l4TQeVzVFBNXOe.4SzzuzwpcCRuS7QmvnV4eY1zhr7gVDm', 'Dr. Mehmet Kaya', 'drmehmet@hastane.com', '5559876545', 'DOKTOR', 50, 'ERKEK', NOW(), true),
-('drfatma', '$2a$10$B74aYU9l4TQeVzVFBNXOe.4SzzuzwpcCRuS7QmvnV4eY1zhr7gVDm', 'Dr. Fatma Şahin', 'drfatma@hastane.com', '5559876546', 'DOKTOR', 42, 'KADIN', NOW(), true),
-('drcan', '$2a$10$B74aYU9l4TQeVzVFBNXOe.4SzzuzwpcCRuS7QmvnV4eY1zhr7gVDm', 'Dr. Can Öztürk', 'drcan@hastane.com', '5559876547', 'DOKTOR', 48, 'ERKEK', NOW(), true);
+('drali', 'doktor123', 'Dr. Ali Demir', 'drali@hastane.com', '5559876543', 'DOKTOR', 45, 'ERKEK', NOW(), true),
+('drayse', 'doktor123', 'Dr. Ayşe Yılmaz', 'drayse@hastane.com', '5559876544', 'DOKTOR', 38, 'KADIN', NOW(), true),
+('drmehmet', 'doktor123', 'Dr. Mehmet Kaya', 'drmehmet@hastane.com', '5559876545', 'DOKTOR', 50, 'ERKEK', NOW(), true),
+('drfatma', 'doktor123', 'Dr. Fatma Şahin', 'drfatma@hastane.com', '5559876546', 'DOKTOR', 42, 'KADIN', NOW(), true),
+('drcan', 'doktor123', 'Dr. Can Öztürk', 'drcan@hastane.com', '5559876547', 'DOKTOR', 48, 'ERKEK', NOW(), true);
 
 -- 2. DEMO HASTA KULLANICILAR (Sifre: hasta123)
 -- ================================================
 INSERT INTO kullanicilar (kullanici_adi, sifre, ad_soyad, email, telefon, rol, yas, cinsiyet, kayit_tarihi, aktif)
 VALUES
-('ahmet', '$2a$10$b/ifaNqFhGnR6GhmbzdB1e8qamboHWPkmJdCOEDZcoxoboX4HNn76', 'Ahmet Yılmaz', 'ahmet@gmail.com', '5551234567', 'HASTA', 35, 'ERKEK', NOW(), true),
-('elif', '$2a$10$b/ifaNqFhGnR6GhmbzdB1e8qamboHWPkmJdCOEDZcoxoboX4HNn76', 'Elif Kaya', 'elif@gmail.com', '5551234568', 'HASTA', 28, 'KADIN', NOW(), true);
+('ahmet', 'hasta123', 'Ahmet Yılmaz', 'ahmet@gmail.com', '5551234567', 'HASTA', 35, 'ERKEK', NOW(), true),
+('elif', 'hasta123', 'Elif Kaya', 'elif@gmail.com', '5551234568', 'HASTA', 28, 'KADIN', NOW(), true);
 
 -- 3. ADMIN KULLANICI (Sifre: admin123)
 -- ================================================
 INSERT INTO kullanicilar (kullanici_adi, sifre, ad_soyad, email, telefon, rol, yas, cinsiyet, kayit_tarihi, aktif)
 VALUES
-('admin', '$2a$10$bES0nuEg0bgJFUEX.i114e4QHt6JfyziwECOBAMUbfL4XHZ9qU/.q', 'Admin User', 'admin@hastane.com', '5550000000', 'ADMIN', 30, 'BELIRTILMEMIS', NOW(), true);
+('admin', 'admin123', 'Admin User', 'admin@hastane.com', '5550000000', 'ADMIN', 30, 'BELIRTILMEMIS', NOW(), true);
 
 -- 4. ORNEK SAGLIK VERILERI (Ahmet icin)
 -- ================================================
