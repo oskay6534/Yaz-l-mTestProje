@@ -224,16 +224,6 @@ pipeline {
                         // Tum test raporlarini kaydet
                         junit allowEmptyResults: true, testResults: '**/target/surefire-reports/*.xml'
                         junit allowEmptyResults: true, testResults: '**/target/failsafe-reports/*.xml'
-
-                        // HTML raporlar varsa kaydet
-                        publishHTML([
-                            allowMissing: true,
-                            alwaysLinkToLastBuild: true,
-                            keepAll: true,
-                            reportDir: 'target/surefire-reports',
-                            reportFiles: 'index.html',
-                            reportName: 'Test Raporlari'
-                        ])
                     }
                     echo 'Tum test raporlari basariyla kaydedildi!'
                 }
