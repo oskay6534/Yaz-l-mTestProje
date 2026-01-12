@@ -58,7 +58,7 @@ pipeline {
             post {
                 always {
                     dir(BACKEND_DIR) {
-                        junit '**/target/surefire-reports/*.xml'
+                        junit allowEmptyResults: true, testResults: '**/target/surefire-reports/*.xml'
                         echo 'Birim test raporlari kaydedildi'
                     }
                 }
@@ -84,7 +84,7 @@ pipeline {
             post {
                 always {
                     dir(BACKEND_DIR) {
-                        junit '**/target/failsafe-reports/*.xml'
+                        junit allowEmptyResults: true, testResults: '**/target/failsafe-reports/*.xml'
                         echo 'Entegrasyon test raporlari kaydedildi'
                     }
                 }
@@ -220,8 +220,8 @@ pipeline {
                 always {
                     dir(BACKEND_DIR) {
                         // Tum test raporlarini kaydet
-                        junit '**/target/surefire-reports/*.xml'
-                        junit '**/target/failsafe-reports/*.xml'
+                        junit allowEmptyResults: true, testResults: '**/target/surefire-reports/*.xml'
+                        junit allowEmptyResults: true, testResults: '**/target/failsafe-reports/*.xml'
 
                         // HTML raporlar varsa kaydet
                         publishHTML([
