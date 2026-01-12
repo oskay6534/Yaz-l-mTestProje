@@ -38,3 +38,5 @@ docker-compose.override.yml
 # Test
 *.class
 hs_err_pid*
+nul
+backend/nul
