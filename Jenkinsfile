@@ -162,19 +162,19 @@ pipeline {
             }
         }
 
-        // STAGE 6-7: Selenium Test Senaryolari (Her biri icin ayri stage)
-        // SENARYO 1: Kullanici Kayit ve Giris (En az 3 senaryo gerekli - 55 puan)
-        stage('Selenium Test 1 - Kullanici Kayit ve Giris') {
+        // STAGE 6-8: Selenium Test Senaryolari (3 basit test)
+        // SENARYO 1: Giris Hata Mesaji Testi
+        stage('Selenium Test 1 - Giris Hata Mesaji') {
             steps {
                 script {
-                    echo '========== Selenium Test 1: Kullanici Kayit ve Giris =========='
+                    echo '========== Selenium Test 1: Giris Hata Mesaji =========='
                     dir(BACKEND_DIR) {
-                        bat 'mvn test -Dtest=KullaniciKayitVeGirisSeleniumTest || exit 0'
+                        bat 'mvn test -Dtest=GirisHataMesajiTest || exit 0'
                     }
 
                     // Test sonuclarini oku ve goster
                     dir(BACKEND_DIR) {
-                        def testResults = bat(script: '@echo off & type target\\surefire-reports\\com.saglik.takip.selenium.KullaniciKayitVeGirisSeleniumTest.txt 2>nul || echo Test raporu bulunamadi', returnStdout: true).trim()
+                        def testResults = bat(script: '@echo off & type target\\surefire-reports\\com.saglik.takip.selenium.GirisHataMesajiTest.txt 2>nul || echo Test raporu bulunamadi', returnStdout: true).trim()
                         if (testResults) {
                             echo '========== TEST 1 SONUCLARI =========='
                             echo testResults
@@ -184,7 +184,7 @@ pipeline {
             }
             post {
                 always {
-                    echo 'Kullanici Kayit ve Giris test senaryosu tamamlandi'
+                    echo 'Giris Hata Mesaji test senaryosu tamamlandi'
                 }
                 success {
                     echo 'Test Senaryosu 1: BASARILI'
@@ -196,18 +196,18 @@ pipeline {
         }
 
 
-        // SENARYO 2: Randevu Olusturma
-        stage('Selenium Test 2 - Randevu Yonetimi') {
+        // SENARYO 2: Kayit Sayfasi Yukleme Testi
+        stage('Selenium Test 2 - Kayit Sayfasi') {
             steps {
                 script {
-                    echo '========== Selenium Test 2: Randevu Olusturma =========='
+                    echo '========== Selenium Test 2: Kayit Sayfasi Yukleme =========='
                     dir(BACKEND_DIR) {
-                        bat 'mvn test -Dtest=RandevuOlusturmaSeleniumTest || exit 0'
+                        bat 'mvn test -Dtest=KayitSayfasiTest || exit 0'
                     }
 
                     // Test sonuclarini oku ve goster
                     dir(BACKEND_DIR) {
-                        def testResults = bat(script: '@echo off & type target\\surefire-reports\\com.saglik.takip.selenium.RandevuOlusturmaSeleniumTest.txt 2>nul || echo Test raporu bulunamadi', returnStdout: true).trim()
+                        def testResults = bat(script: '@echo off & type target\\surefire-reports\\com.saglik.takip.selenium.KayitSayfasiTest.txt 2>nul || echo Test raporu bulunamadi', returnStdout: true).trim()
                         if (testResults) {
                             echo '========== TEST 2 SONUCLARI =========='
                             echo testResults
@@ -217,13 +217,46 @@ pipeline {
             }
             post {
                 always {
-                    echo 'Randevu Olusturma test senaryosu tamamlandi'
+                    echo 'Kayit Sayfasi test senaryosu tamamlandi'
                 }
                 success {
                     echo 'Test Senaryosu 2: BASARILI'
                 }
                 failure {
                     echo 'Test Senaryosu 2: BASARISIZ'
+                }
+            }
+        }
+
+
+        // SENARYO 3: Kayit Basarili Mesaji Testi
+        stage('Selenium Test 3 - Kayit Basarili Mesaji') {
+            steps {
+                script {
+                    echo '========== Selenium Test 3: Kayit Basarili Mesaji =========='
+                    dir(BACKEND_DIR) {
+                        bat 'mvn test -Dtest=KayitBasariliMesajiTest || exit 0'
+                    }
+
+                    // Test sonuclarini oku ve goster
+                    dir(BACKEND_DIR) {
+                        def testResults = bat(script: '@echo off & type target\\surefire-reports\\com.saglik.takip.selenium.KayitBasariliMesajiTest.txt 2>nul || echo Test raporu bulunamadi', returnStdout: true).trim()
+                        if (testResults) {
+                            echo '========== TEST 3 SONUCLARI =========='
+                            echo testResults
+                        }
+                    }
+                }
+            }
+            post {
+                always {
+                    echo 'Kayit Basarili Mesaji test senaryosu tamamlandi'
+                }
+                success {
+                    echo 'Test Senaryosu 3: BASARILI'
+                }
+                failure {
+                    echo 'Test Senaryosu 3: BASARISIZ'
                 }
             }
         }
