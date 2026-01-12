@@ -15,7 +15,7 @@ function KayitOl() {
   });
   const [hata, setHata] = useState('');
   const [basarili, setBasarili] = useState(false);
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
