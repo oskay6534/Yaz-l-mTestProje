@@ -127,11 +127,35 @@ pipeline {
                     bat 'docker-compose up -d'
                     echo 'Docker container\'lar basariyla baslatildi!'
 
-                    // Container'larin hazir olmasini bekle
-                    echo 'Container\'larin hazir olmasi bekleniyor (180 saniye)...'
-                    sleep(time: 180, unit: 'SECONDS')
-                    echo 'Frontend kontrol ediliyor...'
-                    bat 'curl -f http://localhost:3000 || echo Frontend henuz hazir degil'
+                    // Container'larin hazir olmasini bekle (healthcheck ile)
+                    echo 'Container\'larin saglikli olmasini bekliyoruz...'
+                    bat '''
+                        timeout /t 10 /nobreak >nul
+                        docker ps
+                    '''
+
+                    // Frontend'in saglikli olmasini bekle (maksimum 3 dakika)
+                    echo 'Frontend saglik kontrolu yapiliyor...'
+                    def frontendReady = false
+                    def maxAttempts = 36
+                    def attempt = 0
+
+                    while (!frontendReady && attempt < maxAttempts) {
+                        try {
+                            bat 'curl -f http://localhost:3000'
+                            frontendReady = true
+                            echo 'Frontend hazir!'
+                        } catch (Exception e) {
+                            attempt++
+                            echo "Frontend henuz hazir degil, deneme ${attempt}/${maxAttempts}..."
+                            sleep(time: 5, unit: 'SECONDS')
+                        }
+                    }
+
+                    if (!frontendReady) {
+                        echo 'UYARI: Frontend 3 dakika sonra hazir olamadi, ancak testlere devam ediliyor...'
+                        bat 'docker-compose logs frontend'
+                    }
                 }
             }
         }
