@@ -33,46 +33,46 @@ VALUES
 INSERT INTO saglik_verileri (kullanici_id, veri_tipi, deger, birim, notlar, olcum_tarihi)
 VALUES
 -- Tansiyon verileri
-(6, 'TANSIYON_SISTOLIK', 120, 'mmHg', 'Sabah olcumu - Normal', DATEADD('DAY', -7, NOW())),
-(6, 'TANSIYON_SISTOLIK', 125, 'mmHg', 'Aksam olcumu', DATEADD('DAY', -6, NOW())),
-(6, 'TANSIYON_SISTOLIK', 118, 'mmHg', 'Sabah olcumu', DATEADD('DAY', -5, NOW())),
-(6, 'TANSIYON_DIYASTOLIK', 80, 'mmHg', 'Sabah olcumu', DATEADD('DAY', -7, NOW())),
-(6, 'TANSIYON_DIYASTOLIK', 82, 'mmHg', 'Aksam olcumu', DATEADD('DAY', -6, NOW())),
+(6, 'TANSIYON_SISTOLIK', 120, 'mmHg', 'Sabah olcumu - Normal', NOW() - INTERVAL '7 days'),
+(6, 'TANSIYON_SISTOLIK', 125, 'mmHg', 'Aksam olcumu', NOW() - INTERVAL '6 days'),
+(6, 'TANSIYON_SISTOLIK', 118, 'mmHg', 'Sabah olcumu', NOW() - INTERVAL '5 days'),
+(6, 'TANSIYON_DIYASTOLIK', 80, 'mmHg', 'Sabah olcumu', NOW() - INTERVAL '7 days'),
+(6, 'TANSIYON_DIYASTOLIK', 82, 'mmHg', 'Aksam olcumu', NOW() - INTERVAL '6 days'),
 
 -- Kalp ritmi
-(6, 'KALP_RITMI', 72, 'bpm', 'Istirahat halinde', DATEADD('DAY', -5, NOW())),
-(6, 'KALP_RITMI', 75, 'bpm', 'Normal', DATEADD('DAY', -3, NOW())),
-(6, 'KALP_RITMI', 68, 'bpm', 'Sabah olcumu', DATEADD('DAY', -1, NOW())),
+(6, 'KALP_RITMI', 72, 'bpm', 'Istirahat halinde', NOW() - INTERVAL '5 days'),
+(6, 'KALP_RITMI', 75, 'bpm', 'Normal', NOW() - INTERVAL '3 days'),
+(6, 'KALP_RITMI', 68, 'bpm', 'Sabah olcumu', NOW() - INTERVAL '1 day'),
 
 -- Kan sekeri
-(6, 'KAN_SEKERI', 95, 'mg/dL', 'Aclik kan sekeri', DATEADD('DAY', -4, NOW())),
-(6, 'KAN_SEKERI', 110, 'mg/dL', 'Yemekten sonra', DATEADD('DAY', -2, NOW())),
+(6, 'KAN_SEKERI', 95, 'mg/dL', 'Aclik kan sekeri', NOW() - INTERVAL '4 days'),
+(6, 'KAN_SEKERI', 110, 'mg/dL', 'Yemekten sonra', NOW() - INTERVAL '2 days'),
 
 -- Kilo takibi
-(6, 'KILO', 75.5, 'kg', 'Haftalik kilo takibi', DATEADD('DAY', -7, NOW())),
+(6, 'KILO', 75.5, 'kg', 'Haftalik kilo takibi', NOW() - INTERVAL '7 days'),
 (6, 'KILO', 75.2, 'kg', 'Haftalik kilo takibi', NOW());
 
 -- 5. ORNEK ILACLAR (Ahmet icin)
 -- ================================================
 INSERT INTO ilaclar (kullanici_id, ilac_adi, doz, gunluk_kullanim_sayisi, kullanim_saatleri, baslangic_tarihi, bitis_tarihi, notlar, aktif)
 VALUES
-(6, 'Aspirin', '100mg', 2, '08:00,20:00', DATEADD('DAY', -30, NOW()), DATEADD('DAY', 60, NOW()), 'Yemekten sonra alinacak', true),
-(6, 'Vitamin D', '1000 IU', 1, '09:00', DATEADD('DAY', -15, NOW()), DATEADD('DAY', 75, NOW()), 'Kahvalti ile birlikte', true),
-(6, 'Omega-3', '1000mg', 1, '20:00', DATEADD('DAY', -20, NOW()), DATEADD('DAY', 70, NOW()), 'Aksam yemegi ile', true);
+(6, 'Aspirin', '100mg', 2, '08:00,20:00', NOW() - INTERVAL '30 days', NOW() + INTERVAL '60 days', 'Yemekten sonra alinacak', true),
+(6, 'Vitamin D', '1000 IU', 1, '09:00', NOW() - INTERVAL '15 days', NOW() + INTERVAL '75 days', 'Kahvalti ile birlikte', true),
+(6, 'Omega-3', '1000mg', 1, '20:00', NOW() - INTERVAL '20 days', NOW() + INTERVAL '70 days', 'Aksam yemegi ile', true);
 
 -- 6. ORNEK RANDEVULAR
 -- ================================================
 -- Gecmis randevular
 INSERT INTO randevular (hasta_id, doktor_id, randevu_tarihi, durum, aciklama, doktor_notu, olusturma_tarihi)
 VALUES
-(6, 1, DATEADD('DAY', -15, NOW()), 'TAMAMLANDI', 'Genel kontrol muayenesi', 'Hasta genel olarak saglikli. Tansiyonu takip edilmeli.', DATEADD('DAY', -20, NOW())),
-(6, 2, DATEADD('DAY', -10, NOW()), 'TAMAMLANDI', 'Kan tahlili sonuclari', 'Kan degerleri normal aralıkta.', DATEADD('DAY', -12, NOW()));
+(6, 1, NOW() - INTERVAL '15 days', 'TAMAMLANDI', 'Genel kontrol muayenesi', 'Hasta genel olarak saglikli. Tansiyonu takip edilmeli.', NOW() - INTERVAL '20 days'),
+(6, 2, NOW() - INTERVAL '10 days', 'TAMAMLANDI', 'Kan tahlili sonuclari', 'Kan degerleri normal aralıkta.', NOW() - INTERVAL '12 days');
 
 -- Gelecek randevular
 INSERT INTO randevular (hasta_id, doktor_id, randevu_tarihi, durum, aciklama, olusturma_tarihi)
 VALUES
-(6, 1, DATEADD('DAY', 7, NOW()), 'ONAYLANDI', 'Kontrol randevusu', DATEADD('DAY', -2, NOW())),
-(6, 3, DATEADD('DAY', 14, NOW()), 'BEKLEMEDE', 'Uzman gorusu', NOW());
+(6, 1, NOW() + INTERVAL '7 days', 'ONAYLANDI', 'Kontrol randevusu', NOW() - INTERVAL '2 days'),
+(6, 3, NOW() + INTERVAL '14 days', 'BEKLEMEDE', 'Uzman gorusu', NOW());
 
 -- 7. ORNEK TIBBI RAPORLAR
 -- ================================================
@@ -96,7 +96,7 @@ ONERILER:
 - Duzenli egzersiz (Haftada 3 gun, 30 dakika)
 
 Kontrol randevusu: 1 ay sonra',
-'GENEL_MUAYENE', DATEADD('DAY', -15, NOW()), DATEADD('DAY', -15, NOW())),
+'GENEL_MUAYENE', NOW() - INTERVAL '15 days', NOW() - INTERVAL '15 days'),
 
 (6, 2, 'Laboratuvar Sonuclari',
 'HEMOGRAM:
@@ -111,7 +111,7 @@ BIYOKIMYA:
 - LDL: 110 mg/dL (Normal: <130)
 
 SONUC: Tum degerler normal sinirlarda.',
-'LABORATUVAR', DATEADD('DAY', -10, NOW()), DATEADD('DAY', -10, NOW()));
+'LABORATUVAR', NOW() - INTERVAL '10 days', NOW() - INTERVAL '10 days');
 
 -- ================================================
 -- SIFRE BILGILERI
