@@ -53,6 +53,15 @@ pipeline {
                     dir(BACKEND_DIR) {
                         bat 'mvn test -Dtest=!*SeleniumTest || exit 0'
                     }
+
+                    // Test sonuclarini oku ve goster
+                    dir(BACKEND_DIR) {
+                        def testResults = bat(script: '@echo off & type target\\surefire-reports\\*.txt 2>nul || echo Test raporu bulunamadi', returnStdout: true).trim()
+                        if (testResults) {
+                            echo '========== BIRIM TEST SONUCLARI =========='
+                            echo testResults
+                        }
+                    }
                 }
             }
             post {
@@ -78,6 +87,15 @@ pipeline {
                     echo '========== Entegrasyon testleri calistiriliyor =========='
                     dir(BACKEND_DIR) {
                         bat 'mvn verify -DskipUnitTests=true || exit 0'
+                    }
+
+                    // Test sonuclarini oku ve goster
+                    dir(BACKEND_DIR) {
+                        def testResults = bat(script: '@echo off & type target\\failsafe-reports\\*.txt 2>nul || echo Test raporu bulunamadi', returnStdout: true).trim()
+                        if (testResults) {
+                            echo '========== ENTEGRASYON TEST SONUCLARI =========='
+                            echo testResults
+                        }
                     }
                 }
             }
@@ -127,6 +145,15 @@ pipeline {
                     dir(BACKEND_DIR) {
                         bat 'mvn test -Dtest=KullaniciKayitVeGirisSeleniumTest || exit 0'
                     }
+
+                    // Test sonuclarini oku ve goster
+                    dir(BACKEND_DIR) {
+                        def testResults = bat(script: '@echo off & type target\\surefire-reports\\com.saglik.takip.selenium.KullaniciKayitVeGirisSeleniumTest.txt 2>nul || echo Test raporu bulunamadi', returnStdout: true).trim()
+                        if (testResults) {
+                            echo '========== TEST 1 SONUCLARI =========='
+                            echo testResults
+                        }
+                    }
                 }
             }
             post {
@@ -151,6 +178,15 @@ pipeline {
                     dir(BACKEND_DIR) {
                         bat 'mvn test -Dtest=RandevuOlusturmaSeleniumTest || exit 0'
                     }
+
+                    // Test sonuclarini oku ve goster
+                    dir(BACKEND_DIR) {
+                        def testResults = bat(script: '@echo off & type target\\surefire-reports\\com.saglik.takip.selenium.RandevuOlusturmaSeleniumTest.txt 2>nul || echo Test raporu bulunamadi', returnStdout: true).trim()
+                        if (testResults) {
+                            echo '========== TEST 2 SONUCLARI =========='
+                            echo testResults
+                        }
+                    }
                 }
             }
             post {
@@ -172,6 +208,41 @@ pipeline {
             steps {
                 script {
                     echo '========== Tum test raporlari kaydediliyor =========='
+
+                    // Tum test sonuclarini ozet olarak goster
+                    dir(BACKEND_DIR) {
+                        echo '=========================================='
+                        echo '          TEST SONUCLARI OZETI           '
+                        echo '=========================================='
+
+                        // Birim testleri ozeti
+                        bat '''
+                            @echo off
+                            echo.
+                            echo [BIRIM TESTLERI]
+                            for %%f in (target\\surefire-reports\\TEST-*.xml) do (
+                                findstr /C:"tests=" /C:"failures=" /C:"errors=" "%%f" | findstr /C:"<testsuite" >nul 2>&1
+                                if not errorlevel 1 (
+                                    for /f "tokens=*" %%a in ('findstr /C:"<testsuite" "%%f"') do echo %%a
+                                )
+                            )
+                        '''
+
+                        // Entegrasyon testleri ozeti
+                        bat '''
+                            @echo off
+                            echo.
+                            echo [ENTEGRASYON TESTLERI]
+                            for %%f in (target\\failsafe-reports\\TEST-*.xml) do (
+                                findstr /C:"tests=" /C:"failures=" /C:"errors=" "%%f" | findstr /C:"<testsuite" >nul 2>&1
+                                if not errorlevel 1 (
+                                    for /f "tokens=*" %%a in ('findstr /C:"<testsuite" "%%f"') do echo %%a
+                                )
+                            )
+                        '''
+
+                        echo '=========================================='
+                    }
                 }
             }
             post {
