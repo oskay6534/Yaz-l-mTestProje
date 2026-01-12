@@ -30,6 +30,10 @@ public class IlacYonetimSeleniumTest extends SeleniumTestBase {
         driver.findElement(By.id("kayitBtn")).click();
         bekle(2);
 
+        // Giris sayfasina git
+        driver.get(baseUrl + "/giris");
+        bekle(1);
+
         driver.findElement(By.id("kullaniciAdi")).sendKeys(testKullaniciAdi);
         driver.findElement(By.id("sifre")).sendKeys(testSifre);
         driver.findElement(By.id("girisBtn")).click();

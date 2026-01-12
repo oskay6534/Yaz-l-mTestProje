@@ -35,6 +35,10 @@ public class SaglikVerisiEklemeSeleniumTest extends SeleniumTestBase {
 
         bekle(2);
 
+        // Giris sayfasina git
+        driver.get(baseUrl + "/giris");
+        bekle(1);
+
         // Giris yap
         driver.findElement(By.id("kullaniciAdi")).sendKeys(testKullaniciAdi);
         driver.findElement(By.id("sifre")).sendKeys(testSifre);

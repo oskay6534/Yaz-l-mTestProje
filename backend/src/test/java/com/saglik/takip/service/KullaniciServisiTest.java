@@ -151,7 +151,6 @@ public class KullaniciServisiTest {
         // Given
         when(kullaniciRepository.findByKullaniciAdi("testkullanici"))
                 .thenReturn(Optional.of(testKullanici));
-        when(passwordEncoder.matches("yanlisSifre", testKullanici.getSifre())).thenReturn(false);
 
         // When
         boolean sonuc = kullaniciServisi.girisYap("testkullanici", "yanlisSifre");
