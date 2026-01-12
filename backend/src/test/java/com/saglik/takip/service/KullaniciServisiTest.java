@@ -47,7 +47,6 @@ public class KullaniciServisiTest {
     @Test
     public void kullaniciKaydet_Basarili() {
         // Given
-        when(passwordEncoder.encode(anyString())).thenReturn("sifrelenmisSifre");
         when(kullaniciRepository.save(any(Kullanici.class))).thenReturn(testKullanici);
 
         // When
@@ -56,7 +55,7 @@ public class KullaniciServisiTest {
         // Then
         assertNotNull(sonuc);
         assertEquals(testKullanici.getKullaniciAdi(), sonuc.getKullaniciAdi());
-        verify(passwordEncoder, times(1)).encode(anyString());
+        // Plain text password kullaniliyor, passwordEncoder.encode() cagrilmiyor
         verify(kullaniciRepository, times(1)).save(any(Kullanici.class));
     }
 
@@ -135,7 +134,6 @@ public class KullaniciServisiTest {
         // Given
         when(kullaniciRepository.findByKullaniciAdi("testkullanici"))
                 .thenReturn(Optional.of(testKullanici));
-        when(passwordEncoder.matches("sifre123", testKullanici.getSifre())).thenReturn(true);
 
         // When
         boolean sonuc = kullaniciServisi.girisYap("testkullanici", "sifre123");
@@ -143,7 +141,7 @@ public class KullaniciServisiTest {
         // Then
         assertTrue(sonuc);
         verify(kullaniciRepository, times(1)).findByKullaniciAdi("testkullanici");
-        verify(passwordEncoder, times(1)).matches("sifre123", testKullanici.getSifre());
+        // Plain text password karsilastiriliyor, passwordEncoder.matches() cagrilmiyor
     }
 
     @Test
