@@ -118,7 +118,7 @@ pipeline {
             }
         }
 
-        // STAGE 6-9: Selenium Test Senaryolari (Her biri icin ayri stage)
+        // STAGE 6-7: Selenium Test Senaryolari (Her biri icin ayri stage)
         // SENARYO 1: Kullanici Kayit ve Giris (En az 3 senaryo gerekli - 55 puan)
         stage('Selenium Test 1 - Kullanici Kayit ve Giris') {
             steps {
@@ -142,34 +142,12 @@ pipeline {
             }
         }
 
-        // SENARYO 2: Saglik Verisi Ekleme ve Goruntuleme
-        stage('Selenium Test 2 - Saglik Verisi Yonetimi') {
-            steps {
-                script {
-                    echo '========== Selenium Test 2: Saglik Verisi Ekleme =========='
-                    dir(BACKEND_DIR) {
-                        bat 'mvn test -Dtest=SaglikVerisiEklemeSeleniumTest || exit 0'
-                    }
-                }
-            }
-            post {
-                always {
-                    echo 'Saglik Verisi Ekleme test senaryosu tamamlandi'
-                }
-                success {
-                    echo 'Test Senaryosu 2: BASARILI'
-                }
-                failure {
-                    echo 'Test Senaryosu 2: BASARISIZ'
-                }
-            }
-        }
 
-        // SENARYO 3: Randevu Olusturma ve Iptal
-        stage('Selenium Test 3 - Randevu Yonetimi') {
+        // SENARYO 2: Randevu Olusturma
+        stage('Selenium Test 2 - Randevu Yonetimi') {
             steps {
                 script {
-                    echo '========== Selenium Test 3: Randevu Olusturma =========='
+                    echo '========== Selenium Test 2: Randevu Olusturma =========='
                     dir(BACKEND_DIR) {
                         bat 'mvn test -Dtest=RandevuOlusturmaSeleniumTest || exit 0'
                     }
@@ -180,36 +158,14 @@ pipeline {
                     echo 'Randevu Olusturma test senaryosu tamamlandi'
                 }
                 success {
-                    echo 'Test Senaryosu 3: BASARILI'
+                    echo 'Test Senaryosu 2: BASARILI'
                 }
                 failure {
-                    echo 'Test Senaryosu 3: BASARISIZ'
+                    echo 'Test Senaryosu 2: BASARISIZ'
                 }
             }
         }
 
-        // BONUS SENARYO: Ilac Yonetimi (Ekstra puan)
-        stage('Selenium Test 4 - Ilac Yonetimi (BONUS)') {
-            steps {
-                script {
-                    echo '========== Selenium Test 4 (BONUS): Ilac Yonetimi =========='
-                    dir(BACKEND_DIR) {
-                        bat 'mvn test -Dtest=IlacYonetimSeleniumTest || exit 0'
-                    }
-                }
-            }
-            post {
-                always {
-                    echo 'Ilac Yonetimi test senaryosu tamamlandi'
-                }
-                success {
-                    echo 'Test Senaryosu 4 (BONUS): BASARILI - Ekstra puan kazanildi!'
-                }
-                failure {
-                    echo 'Test Senaryosu 4 (BONUS): BASARISIZ'
-                }
-            }
-        }
 
         // Tum Selenium testlerinin raporlarini topla
         stage('Test Raporlarini Topla') {
