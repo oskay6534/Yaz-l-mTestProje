@@ -128,8 +128,8 @@ pipeline {
                     echo 'Docker container\'lar basariyla baslatildi!'
 
                     // Container'larin hazir olmasini bekle
-                    echo 'Container\'larin hazir olmasi bekleniyor (120 saniye)...'
-                    sleep(time: 120, unit: 'SECONDS')
+                    echo 'Container\'larin hazir olmasi bekleniyor (180 saniye)...'
+                    sleep(time: 180, unit: 'SECONDS')
                     echo 'Frontend kontrol ediliyor...'
                     bat 'curl -f http://localhost:3000 || echo Frontend henuz hazir degil'
                 }
