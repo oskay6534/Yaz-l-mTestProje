@@ -153,8 +153,10 @@ pipeline {
                     }
 
                     if (!frontendReady) {
-                        echo 'UYARI: Frontend 3 dakika sonra hazir olamadi, ancak testlere devam ediliyor...'
+                        echo 'HATA: Frontend 3 dakika sonra hazir olamadi!'
                         bat 'docker-compose logs frontend'
+                        bat 'docker-compose logs backend'
+                        error('Frontend baslatılamadi - testler calistirilamaz!')
                     }
                 }
             }
