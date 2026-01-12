@@ -51,7 +51,7 @@ pipeline {
                 script {
                     echo '========== Birim testleri calistiriliyor =========='
                     dir(BACKEND_DIR) {
-                        bat 'mvn test -Dtest=!*SeleniumTest || exit 0'
+                        bat 'mvn test -Dsurefire.excludes=**/*SeleniumTest.java || exit 0'
                     }
 
                     // Test sonuclarini oku ve goster
