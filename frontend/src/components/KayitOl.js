@@ -29,7 +29,7 @@ function KayitOl() {
     try {
       await kullaniciKayit(formData);
       setBasarili(true);
-      setTimeout(() => navigate('/giris'), 2000);
+      setTimeout(() => navigate('/'), 2000);
     } catch (error) {
       setHata(error.response?.data || 'Kayit sirasinda hata olustu!');
     }
@@ -39,7 +39,6 @@ function KayitOl() {
     <div className="card" style={{ maxWidth: '500px', margin: '50px auto' }}>
       <h2>Kayit Ol</h2>
       {hata && <div style={{ color: 'red', marginBottom: '10px' }}>{hata}</div>}
-      {basarili && <div style={{ color: 'green', marginBottom: '10px' }}>Kayit basarili! Giris sayfasina yonlendiriliyorsunuz...</div>}
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Kullanici Adi:</label>
@@ -74,6 +73,7 @@ function KayitOl() {
           </select>
         </div>
         <button type="submit" className="btn btn-success" id="kayitBtn">Kayit Ol</button>
+        {basarili && <div style={{ color: 'green', marginTop: '20px' }} id="basariliMesaj">Kayit basarili! Ana sayfaya yonlendiriliyorsunuz...</div>}
         <p style={{ marginTop: '20px' }}>
           Zaten hesabiniz var mi? <Link to="/giris">Giris Yap</Link>
         </p>
