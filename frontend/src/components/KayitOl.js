@@ -29,7 +29,6 @@ function KayitOl() {
     try {
       await kullaniciKayit(formData);
       setBasarili(true);
-      setTimeout(() => navigate('/'), 2000);
     } catch (error) {
       setHata(error.response?.data || 'Kayit sirasinda hata olustu!');
     }
@@ -73,7 +72,7 @@ function KayitOl() {
           </select>
         </div>
         <button type="submit" className="btn btn-success" id="kayitBtn">Kayit Ol</button>
-        {basarili && <div style={{ color: 'green', marginTop: '20px' }} id="basariliMesaj">Kayit basarili! Ana sayfaya yonlendiriliyorsunuz...</div>}
+        {basarili && <div style={{ color: 'green', marginTop: '20px' }} id="basariliMesaj">Kayit basarili!</div>}
         <p style={{ marginTop: '20px' }}>
           Zaten hesabiniz var mi? <Link to="/giris">Giris Yap</Link>
         </p>

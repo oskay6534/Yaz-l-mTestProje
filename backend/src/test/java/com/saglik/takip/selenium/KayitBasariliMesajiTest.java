@@ -66,7 +66,7 @@ public class KayitBasariliMesajiTest {
         // Basarili mesajini kontrol et - id ile bul
         try {
             WebElement basariliMesaj = driver.findElement(By.id("basariliMesaj"));
-            assertTrue(basariliMesaj.getText().contains("Kayit basarili! Ana sayfaya yonlendiriliyorsunuz..."),
+            assertTrue(basariliMesaj.getText().contains("Kayit basarili!"),
                     "Kayit basarili mesaji yanlis!");
             System.out.println("Test basarili: Kayit basarili mesaji goruntulendi.");
         } catch (Exception e) {
