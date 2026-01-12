@@ -6,6 +6,9 @@ import com.saglik.takip.entity.Kullanici;
 import com.saglik.takip.entity.Randevu;
 import com.saglik.takip.repository.KullaniciRepository;
 import com.saglik.takip.repository.RandevuRepository;
+import com.saglik.takip.repository.IlacRepository;
+import com.saglik.takip.repository.SaglikVerisiRepository;
+import com.saglik.takip.repository.TibbiRaporRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +38,15 @@ public class RandevuControllerEntegrasyonTest {
     private KullaniciRepository kullaniciRepository;
 
     @Autowired
+    private IlacRepository ilacRepository;
+
+    @Autowired
+    private SaglikVerisiRepository saglikVerisiRepository;
+
+    @Autowired
+    private TibbiRaporRepository tibbiRaporRepository;
+
+    @Autowired
     private ObjectMapper objectMapper;
 
     private Kullanici testHasta;
@@ -43,7 +55,12 @@ public class RandevuControllerEntegrasyonTest {
     @BeforeEach
     public void setUp() {
         objectMapper.registerModule(new JavaTimeModule());
+        // Foreign key constraint'ler yuzunden once child tablolari temizle
         randevuRepository.deleteAll();
+        ilacRepository.deleteAll();
+        saglikVerisiRepository.deleteAll();
+        tibbiRaporRepository.deleteAll();
+        // Son olarak parent tablo
         kullaniciRepository.deleteAll();
 
         testHasta = new Kullanici();

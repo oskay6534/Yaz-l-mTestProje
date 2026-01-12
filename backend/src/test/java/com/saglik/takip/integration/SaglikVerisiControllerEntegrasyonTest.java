@@ -4,7 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.saglik.takip.entity.Kullanici;
 import com.saglik.takip.entity.SaglikVerisi;
 import com.saglik.takip.repository.KullaniciRepository;
+import com.saglik.takip.repository.RandevuRepository;
+import com.saglik.takip.repository.IlacRepository;
 import com.saglik.takip.repository.SaglikVerisiRepository;
+import com.saglik.takip.repository.TibbiRaporRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,13 +37,27 @@ public class SaglikVerisiControllerEntegrasyonTest {
     private KullaniciRepository kullaniciRepository;
 
     @Autowired
+    private RandevuRepository randevuRepository;
+
+    @Autowired
+    private IlacRepository ilacRepository;
+
+    @Autowired
+    private TibbiRaporRepository tibbiRaporRepository;
+
+    @Autowired
     private ObjectMapper objectMapper;
 
     private Kullanici testKullanici;
 
     @BeforeEach
     public void setUp() {
+        // Foreign key constraint'ler yuzunden once child tablolari temizle
+        randevuRepository.deleteAll();
+        ilacRepository.deleteAll();
         saglikVerisiRepository.deleteAll();
+        tibbiRaporRepository.deleteAll();
+        // Son olarak parent tablo
         kullaniciRepository.deleteAll();
 
         testKullanici = new Kullanici();
@@ -124,7 +141,6 @@ public class SaglikVerisiControllerEntegrasyonTest {
         veri.setBirim("kg");
         veri.setOlcumTarihi(LocalDateTime.now());
         SaglikVerisi kaydedilen = saglikVerisiRepository.save(veri);
-
         // When & Then
         mockMvc.perform(delete("/api/saglik-verileri/" + kaydedilen.getId()))
                 .andExpect(status().isOk());
