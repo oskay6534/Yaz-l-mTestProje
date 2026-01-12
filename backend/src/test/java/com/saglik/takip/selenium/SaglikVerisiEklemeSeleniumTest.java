@@ -99,7 +99,11 @@ public class SaglikVerisiEklemeSeleniumTest extends SeleniumTestBase {
     @Test
     public void testFarkliSaglikVerileriEkle() {
         driver.get(baseUrl + "/saglik-verileri");
-        bekle(1);
+        bekle(2);
+
+        // Sayfanin yuklendigini kontrol et
+        assertTrue(driver.getPageSource().contains("Saglik Verileri"),
+                "Saglik verileri sayfasi yuklenemedi!");
 
         // Kalp ritmi ekle
         Select veriTipiSelect = new Select(driver.findElement(By.id("veriTipi")));
