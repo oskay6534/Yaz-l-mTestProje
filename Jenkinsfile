@@ -1,27 +1,18 @@
 pipeline {
     agent any
 
-    options {
-        timestamps()
-        buildDiscarder(logRotator(numToKeepStr: '10'))
-    }
-
     tools {
-        maven 'Maven'
-        nodejs 'NodeJs'
+        jdk 'JDK17'
+        maven 'Maven3'
+        nodejs 'NodeJS'
     }
 
     environment {
-        BACKEND_DIR = 'backend'
-        FRONTEND_DIR = 'frontend'
-        CI = 'true'
+        FRONTEND_PORT = "3000"
     }
 
     stages {
 
-        /* ===============================
-           STAGE 1 - GITHUB CHECKOUT
-           =============================== */
         stage('Github - Kodlari Cek') {
             steps {
                 echo 'Github repository cekiliyor...'
@@ -29,132 +20,79 @@ pipeline {
             }
         }
 
-        /* ===============================
-           STAGE 2 - BUILD
-           =============================== */
-        stage('Build - Backend & Frontend') {
+        stage('Backend - Build') {
             steps {
-                script {
-                    echo 'Backend build ediliyor...'
-                    dir(BACKEND_DIR) {
-                        bat 'mvn clean compile'
-                    }
-
-                    echo 'Frontend build ediliyor...'
-                    dir(FRONTEND_DIR) {
-                        bat 'npm install'
-                        bat 'npm run build'
-                    }
+                echo 'Backend build ediliyor...'
+                dir('backend') {
+                    bat 'mvn clean compile'
                 }
             }
         }
 
-        /* ===============================
-           STAGE 3 - UNIT TESTS
-           =============================== */
+        stage('Frontend - Build') {
+            steps {
+                echo 'Frontend build ediliyor...'
+                dir('frontend') {
+                    bat 'npm install'
+                    bat 'npm run build'
+                }
+            }
+        }
+
+        // 🔥 EN KRİTİK STAGE
+        stage('Frontend - Uygulamayi Baslat') {
+            steps {
+                echo 'Frontend baslatiliyor (npm start)...'
+                dir('frontend') {
+                    bat '''
+                    start cmd /c "npm start"
+                    '''
+                }
+
+                echo 'Frontend ayaga kalkmasi icin bekleniyor...'
+                sleep(time: 20, unit: 'SECONDS')
+            }
+        }
+
         stage('Birim Testleri') {
             steps {
-                script {
-                    echo 'Birim testleri calistiriliyor...'
-                    dir(BACKEND_DIR) {
-                        bat 'mvn -B test -Dsurefire.excludes=**/*SeleniumTest.java'
-                    }
-                }
-            }
-            post {
-                always {
-                    dir(BACKEND_DIR) {
-                        junit allowEmptyResults: true,
-                              testResults: '**/target/surefire-reports/*.xml'
-                    }
+                echo 'Backend unit testleri calisiyor...'
+                dir('backend') {
+                    bat 'mvn test -DskipITs=true'
                 }
             }
         }
 
-        /* ===============================
-           STAGE 4 - INTEGRATION TESTS
-           =============================== */
         stage('Entegrasyon Testleri') {
             steps {
-                script {
-                    echo 'Entegrasyon testleri calistiriliyor...'
-                    dir(BACKEND_DIR) {
-                        bat 'mvn -B verify -DskipUnitTests=true'
-                    }
-                }
-            }
-            post {
-                always {
-                    dir(BACKEND_DIR) {
-                        junit allowEmptyResults: true,
-                              testResults: '**/target/failsafe-reports/*.xml'
-                    }
+                echo 'Backend entegrasyon testleri calisiyor...'
+                dir('backend') {
+                    bat 'mvn test -DskipUnitTests=true'
                 }
             }
         }
 
-        /* ===============================
-           STAGE 5 - DOCKER UP
-           =============================== */
-        stage('Docker - Servisleri Baslat') {
-            steps {
-                script {
-                    echo 'Docker containerlar baslatiliyor...'
-
-                    bat 'docker-compose down -v || exit 0'
-                    bat 'docker-compose build'
-                    bat 'docker-compose up -d'
-
-                    echo 'Servislerin ayaga kalkmasi bekleniyor...'
-                    sleep(time: 20, unit: 'SECONDS')
-                }
-            }
-        }
-
-        /* ===============================
-           STAGE 6 - SELENIUM TESTS
-           =============================== */
         stage('Selenium Testleri') {
             steps {
-                timeout(time: 30, unit: 'MINUTES') {
-                    script {
-                        echo 'Selenium testleri calistiriliyor...'
-                        dir(BACKEND_DIR) {
-                            bat 'mvn -B -Dtest=*SeleniumTest test'
-                        }
-                    }
-                }
-            }
-            post {
-                always {
-                    dir(BACKEND_DIR) {
-                        junit allowEmptyResults: true,
-                              testResults: '**/target/surefire-reports/*.xml'
-                    }
-                }
-                success {
-                    echo 'Selenium testleri BASARILI'
-                }
-                failure {
-                    echo 'Selenium testleri BASARISIZ'
+                echo 'Selenium testleri calisiyor...'
+                dir('backend') {
+                    bat 'mvn -Dtest=*SeleniumTest test'
                 }
             }
         }
     }
 
-    /* ===============================
-       POST ACTIONS
-       =============================== */
     post {
         always {
-            echo 'Docker containerlar kapatiliyor...'
-            bat 'docker-compose down -v || exit 0'
+            echo 'Pipeline tamamlandi.'
         }
-        success {
-            echo 'PIPELINE BASARIYLA TAMAMLANDI'
-        }
+
         failure {
             echo 'PIPELINE HATA ILE BITTI'
+        }
+
+        success {
+            echo 'PIPELINE BASARIYLA TAMAMLANDI'
         }
     }
 }
