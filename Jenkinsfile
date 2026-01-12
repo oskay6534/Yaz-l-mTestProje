@@ -102,7 +102,9 @@ pipeline {
             steps {
                 script {
                     echo '========== Docker container\'lar olusturuluyor =========='
-                    bat 'docker-compose down || exit 0'
+                    // Eski container'lari temizle (force remove)
+                    bat 'docker rm -f saglik-takip-db saglik-takip-backend saglik-takip-frontend || exit 0'
+                    bat 'docker-compose down -v || exit 0'
                     bat 'docker-compose build'
                     bat 'docker-compose up -d'
                     echo 'Docker container\'lar basariyla baslatildi!'
@@ -243,7 +245,8 @@ pipeline {
         always {
             echo '========== Pipeline Tamamlandi =========='
             echo 'Container\'lar temizleniyor...'
-            bat 'docker-compose down || exit 0'
+            bat 'docker rm -f saglik-takip-db saglik-takip-backend saglik-takip-frontend || exit 0'
+            bat 'docker-compose down -v || exit 0'
         }
         success {
             echo '========== PIPELINE BASARILI! =========='
