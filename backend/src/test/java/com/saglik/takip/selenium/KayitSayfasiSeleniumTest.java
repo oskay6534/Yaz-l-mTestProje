@@ -57,6 +57,6 @@ public class KayitSayfasiSeleniumTest {
                 "Kayit sayfasinda beklenen yazi bulunamadi!"
         );
 
-        System.out.println("✅ Selenium Test Basarili: Kayit sayfasi dogru sekilde yuklendi.");
+        System.out.println(" Selenium Test Basarili: Kayit sayfasi dogru sekilde yuklendi.");
     }
 }

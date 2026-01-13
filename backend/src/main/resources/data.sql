@@ -15,4 +15,4 @@ VALUES
 -- Admin kullanici
 INSERT INTO kullanicilar (kullanici_adi, sifre, ad_soyad, email, telefon, rol, yas, cinsiyet, kayit_tarihi, aktif)
 VALUES
-('admin', 'admin123', 'Admin User', 'admin@hastane.com', '5550000000', 'ADMIN', 30, 'BELIRTILMEMIS', CURRENT_TIMESTAMP, true);
+('admin', 'admin123', 'Admin User', 'admin@hastane.com', '5550000000', 'ADMIN', 30, 'Erkek', CURRENT_TIMESTAMP, true);

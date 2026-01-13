@@ -55,7 +55,7 @@ public class KullaniciServisiTest {
         // Then
         assertNotNull(sonuc);
         assertEquals(testKullanici.getKullaniciAdi(), sonuc.getKullaniciAdi());
-        // Plain text password kullaniliyor, passwordEncoder.encode() cagrilmiyor
+    
         verify(kullaniciRepository, times(1)).save(any(Kullanici.class));
     }
 
@@ -141,7 +141,7 @@ public class KullaniciServisiTest {
         // Then
         assertTrue(sonuc);
         verify(kullaniciRepository, times(1)).findByKullaniciAdi("testkullanici");
-        // Plain text password karsilastiriliyor, passwordEncoder.matches() cagrilmiyor
+  
     }
 
     @Test

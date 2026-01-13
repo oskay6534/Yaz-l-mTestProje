@@ -9,6 +9,21 @@ pipeline {
                 checkout scm
             }
         }
+         stage('Birim Testleri') {
+            steps {
+                dir('backend') {
+                    bat 'mvn test -DskipITs=true'
+                }
+            }
+        }
+
+        stage('Entegrasyon Testleri') {
+            steps {
+                dir('backend') {
+                    bat 'mvn test -DskipUnitTests=true'
+                }
+            }
+        }
 
         stage('Backend - Build') {
             steps {
@@ -38,21 +53,7 @@ pipeline {
             }
         }
 
-        stage('Birim Testleri') {
-            steps {
-                dir('backend') {
-                    bat 'mvn test -DskipITs=true'
-                }
-            }
-        }
-
-        stage('Entegrasyon Testleri') {
-            steps {
-                dir('backend') {
-                    bat 'mvn test -DskipUnitTests=true'
-                }
-            }
-        }
+       
 
         stage('Selenium Testleri') {
             steps {
