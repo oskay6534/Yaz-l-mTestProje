@@ -27,14 +27,19 @@ pipeline {
             }
         }
 
-        stage('Frontend - Baslat') {
+        stage('Docker - Build') {
             steps {
-                dir('frontend') {
-                    bat '''
-                    start cmd /c "npm start"
-                    '''
-                }
-                sleep(time: 20, unit: 'SECONDS')
+                echo 'Docker image leri build ediliyor...'
+                bat 'docker-compose build'
+            }
+        }
+
+        stage('Docker - Baslat') {
+            steps {
+                echo 'Docker container lari baslatiliyor...'
+                bat 'docker-compose up -d'
+                echo 'Container larin hazir olmasi bekleniyor...'
+                sleep(time: 60, unit: 'SECONDS')
             }
         }
 
@@ -64,6 +69,10 @@ pipeline {
     }
 
     post {
+        always {
+            echo 'Docker container lari durduruluyor ve temizleniyor...'
+            bat 'docker-compose down || exit 0'
+        }
         failure {
             echo 'PIPELINE HATA ILE BITTI'
         }

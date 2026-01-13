@@ -37,6 +37,6 @@ public class FrontendSmokeSeleniumTest {
         driver.get("http://localhost:3000");
 
         String title = driver.getTitle();
-        assertNotNull(title); // SAYFA ACILDIYSA TEST PASS
+        assertNotNull(title); 
     }
 }
